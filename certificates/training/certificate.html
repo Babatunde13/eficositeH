@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Generate Certificate</title>
-    <link rel="stylesheet" href="training.css">
+    <link rel="shortcut icon" href="../static/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="../static/training.css">
 </head>
 <body>
     <div class="loginhead">
@@ -15,13 +16,76 @@
         <div class="form">
             <div class="inputs">
                 <div class="user">
-                    <!-- <i class="fas fa-user" id="user"></i> -->
-                <input type="text" id="username" placeholder="Email Address">
+                    <input type="text" id="username" placeholder="Email Address">
                 </div>
                 <button>Submit</button>
             </div>
         </div>
     </header>
+    <script>
+        function downloadBlobData(blobData, filename) {
+            let blobUrl = URL.createObjectURL(blobData) // create a url from blob
+            const a = document.createElement('a') // create a virtual link
+            a.href = blobUrl // set the href of link to the blob url
+            a.download = filename || 'download' // set filename to filename if defined otherwise download
+            const clickHandler = () => {
+                setTimeout(() => { // delay running for 200ms
+                    URL.revokeObjectURL(blobUrl) // revoke the blob url
+                    this.removeEventListener('click', clickHandler) // 
+                }, 200)
+            }
+            a.addEventListener('click', clickHandler)
+            a.click() // click the link to download
+            return a
+        }
+        const btn = document.querySelector('button')
+            btn.addEventListener('click', ()=> {
+                let email = document.querySelector('input[type=text]').value
+                if (email) {
+                    fetch('/certificate', { // make a POST request to the server
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({email})
+                    })
+                    .then(res => {
+                        if (res.status == 200) {
+                            return res.blob()
+                        } else if (res.status == 500 || res.status == 400) {
+                            return res.json() 
+                        } else {
+                            console.log(res)
+                        }
+                    }) // get the blob data or error message from response
+                    .then(res => {
+                        if (res.error) {
+                            let header = document.querySelector('header')
+                            let newText = document.createElement('p')
+                            newText.textContent = res.message
+                            newText.style.textAlign = 'center'
+                            newText.style.color = '#31708f'
+                            newText.style.padding = '15px'
+                            newText.style.border = '1px solid transparent'
+                            newText.style.marginTop = '40px'
+                            newText.style.marginBottom = '20px'
+                            newText.style.borderRadius = '4px'
+                            newText.style.backgroundColor = '#d9edf7'
+                            newText.style.borderColor = '#bce8f1'             
+                            if (newText.tagName == header.previousElementSibling.tagName) {
+                                if (newText.textContent == 
+                                header.previousElementSibling.textContent) {} else {
+                                    header.previousElementSibling.textContent = newText.textContent
+                                }
+                            }else {
+                                document.body.insertBefore(newText, header)
+                            }
+                        } else {
+                            downloadBlobData(res, `${email}-certificate.png`)
+                        }
+                    })
+                    // .catch(console.error) // send the blob to the function above
+                }
+            })
+    </script>
 </body>
 <script src="https://kit.fontawesome.com/dc7f1f050e.js" crossorigin="anonymous"></script>
 </html>

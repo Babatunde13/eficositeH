@@ -30,30 +30,7 @@ header{
     background-color: white;
     padding: 10px;
 }
-.form2{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-form{
-    margin: auto;
-    position: absolute;
-    top: 25%;
-    width: auto;
-    box-shadow: 0px 2px 5px 2px rgb(189, 188, 188);
-    border-radius: 5%;
-    height: auto;
-    padding: 10px;
-    background-color: white;
-}
-form input{
-    padding: 12px 20px;
-    width: 80%;
-    margin-bottom: 10px;
-}
-form .name{
-    margin-top: 20px;
-}
+
 .inputs{
     display: flex;
     align-items: center;
@@ -72,22 +49,15 @@ form .name{
 .user{
     position: relative;
 }
-.inputs #user{
+/* .inputs #user{
     position: absolute;
     top: 10px;
     left: -20px;
     background-color: #3c185b;
     padding: 14px 10px;
     color: white;
-}
-.inputs #lock{
-    position: absolute;
-    top: 124px;
-    left: 10px;
-    background-color: #3c185b;
-    padding: 14px 10px;
-    color: white;
-}
+} */
+
 .inputs button{
     width: 100px;
     margin: auto;
@@ -97,16 +67,7 @@ form .name{
     border: none;
     padding: 12px;
 }
-form button{
-    display: flex;
-    width: 100px;
-    margin: auto;
-    text-align: center;
-    background-color: #3c185b;
-    color: white;
-    border: none;
-    padding: 12px 12px 12px 23px;
-}
+
 .loginhead{
     position: absolute;
     display: flex;
@@ -119,7 +80,7 @@ form button{
     justify-content: center;
     /* text-align: center; */
 }
-.loginhead h5{
+.loginhead h4{
     margin: auto;
     text-align: center;
 }
