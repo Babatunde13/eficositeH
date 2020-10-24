@@ -14,15 +14,9 @@ def get_content(url='https://www.intelregion.com/scholarships'):
     response = requests.get(url)
     return response.text 
 
-def get_details_from_html(html):
+def get_details_from_html(html: str) -> list:
     soup = BeautifulSoup(html, 'lxml')
-
-    
-
-
-
     divs = soup.find_all('div', class_='td-block-span4' or 'td-bp-span4' or 'td-block-span6' or 'td_module_wrap')
-    # print(divs.prettify())
     scholarships = []
     for scholarship in divs:
         res = scholarship.find('div', class_='td-module-thumb')
@@ -30,8 +24,8 @@ def get_details_from_html(html):
             'url': res.a['href'],
             'title': res.a['title']
         }
-        new_request = request.get(new_scholarship['url'])
-        new_soup = BeautifulSoup(new_request, 'lxml')
+        new_request = requests.get(new_scholarship['url'])
+        new_soup = BeautifulSoup(new_request.text, 'lxml')
         url = new_soup.find('section', 
                 class_='elementor-section \
                         elementor-top-section elementor-element \
@@ -51,9 +45,6 @@ def get_details_from_html(html):
         new_scholarship['deadline'] = deadline
         scholarships.append(new_scholarship)
     return scholarships
-# print(get_details_from_html(get_content()))
 
-# print(get_content())
-
-
-app.run()
+if __name__ == "__main__":
+    app.run()
